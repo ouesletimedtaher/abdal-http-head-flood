@@ -13,7 +13,7 @@
 
 ## 🎙️ ترجمه
 
-English | [فارسی](README.fa.md)
+[English](README.md) | [فارسی](README.fa.md)
 
 ---
 

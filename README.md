@@ -13,7 +13,7 @@ Designed for cybersecurity research, network stress testing, and performance ben
 
 ## 🎙️ Translation
 
-[فارسی](README.fa.md) | English
+[English](README.md) | [فارسی](README.fa.md)
 
 ---
 
