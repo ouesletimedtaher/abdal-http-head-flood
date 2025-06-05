@@ -2,16 +2,27 @@ mod head_flood;
 mod ascii_art;
 
 use head_flood::AttackOptions;
-use std::io::{self, Write};
+use rustyline::Editor;
+use rustyline::history::DefaultHistory;
+// -------------------------
+// Programmer       : Ebrahim Shafiei (EbraSha)
+// Email            : Prof.Shafiei@Gmail.com
+// -------------------------
 
+// Read string input using rustyline (supports Backspace, history, editing)
 fn read_input(prompt: &str) -> String {
-    print!("{}", prompt);
-    io::stdout().flush().unwrap();
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).unwrap();
-    input.trim().to_string()
+    let mut rl = Editor::<(), DefaultHistory>::new().unwrap();
+    match rl.readline(prompt) {
+        Ok(line) => line.trim().to_string(),
+        Err(_) => {
+            println!("Error reading input.");
+            "".to_string()
+        }
+    }
 }
 
+
+// Read and parse input as usize
 fn read_usize(prompt: &str) -> usize {
     loop {
         let input = read_input(prompt);
@@ -22,6 +33,7 @@ fn read_usize(prompt: &str) -> usize {
     }
 }
 
+// Select Connection header interactively
 fn select_connection_header() -> Option<String> {
     println!("\nSelect Connection header:");
     println!("1. keep-alive");
