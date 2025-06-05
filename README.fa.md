@@ -55,7 +55,7 @@
 ✅ تنظیمات پیشنهاد شده: 
 ```shell
 Enter target URL or IP: https://ebrasha.com
-Enter total number of requests: 50000000
+Enter total number of requests: 5000000
 Enter concurrency level (threads): 300
 Show each request? (y/n): y
 Show server responses? (y/n): y
@@ -68,8 +68,9 @@ Select Connection header:
 2. close
 3. upgrade
 4. None (don’t include Connection header)
-   Enter option [1-4]: 2
-   Use specific Host header? (y/n): https://ebrasha.com
+Enter option [1-4]: 2
+Use specific Host header? (y/n): y
+Enter Host value: https://ebrasha.com    
 ```
 ## ⚠️ نکات مهم درباره Concurrency (سطح هم‌زمانی)
 ### 🚫 لطفاً مقدار Concurrency را بی‌دلیل بالا نبرید!
