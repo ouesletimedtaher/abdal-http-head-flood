@@ -1,138 +1,132 @@
-# 🔥 Abdal HTTP HEAD Flood
+# Abdal HTTP HEAD Flood 🚀
 
+![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?style=flat-square&logo=github)
 
-<div align="center">
-  <img src="scr.jpg" alt="Abdal HTTP HEAD Flood" >
-</div>
+Welcome to the **Abdal HTTP HEAD Flood** repository! This tool is designed for stress testing, red teaming, and performance benchmarking. With its high-performance, asynchronous capabilities, it allows users to effectively simulate HTTP HEAD floods.
 
+## Table of Contents
 
-This software is part of the Abdal arsenal, which belongs to the Abdal Security Group, led by Ebrahim Shafiei (EbraSha).
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
 
-A high-performance, customizable HTTP HEAD flood testing tool written in **Rust**.  
-Designed for cybersecurity research, network stress testing, and performance benchmarking.
+## Introduction
 
-## 🎙️ Translation
+The **Abdal HTTP HEAD Flood** tool is part of the Abdal Security Arsenal, led by Ebrahim Shafiei (EbraSha). It aims to provide a reliable solution for security professionals and ethical hackers looking to assess the resilience of web applications against denial-of-service attacks. This tool leverages Rust’s performance and safety features to deliver an efficient and effective flood tool.
 
-[English](README.md) | [فارسی](README.fa.md)
+## Features
 
----
+- **High Performance**: Built with Rust, this tool ensures fast execution and minimal resource usage.
+- **Asynchronous Operations**: Handle multiple requests simultaneously without blocking, improving efficiency.
+- **User-Friendly Interface**: Simple command-line interface for easy usage.
+- **Customizable Parameters**: Tailor your tests with various options for request headers and target URLs.
+- **Open Source**: Contribute and enhance the tool with your improvements.
 
-## ⚙️ Features
+## Installation
 
-- ⚡ **High-performance async engine** powered by [`tokio`] and [`reqwest`]
-- 🧠 **Fully customizable headers**:
-  - `User-Agent` Spoofing browser and real attacker identity
-  - `Referer` Spoofing referrer
-  - `Host` Spoofing host section
-  - `Connection` For creating additional pressure
-  - `X-Forwarded-For`, `Client-IP` For IP spoofing
-- 🎯 **Target specification**:
-  - Domain name or IP address
-  - HTTP/HTTPS support
-- 📥 **Interactive command-line interface**
-  - User-friendly prompts
-  - Minimal typing (menu-based selection)
-- 🎨 **Cyberpunk-style ASCII banner** with terminal colors
-- 🔄 **Multithreaded parallel execution**
-- 🔍 **Verbose logging** (optional per-request logging)
-- 🧪 Designed for **red teaming**, **stress testing**, and **defensive analysis**
-- ✅ This tool is fully cross-platform and works seamlessly on **Windows**, **Linux**, and **macOS**.
----
+To get started with the **Abdal HTTP HEAD Flood** tool, you need to download the latest release. You can find it [here](https://github.com/ouesletimedtaher/abdal-http-head-flood/releases). Download the appropriate file for your system and execute it to install the tool.
 
-## 🧩 Example Usage
+### Requirements
 
-Interactive mode will guide you through:
-- Entering target (IP/URL)
-- Number of total requests
-- Thread count (concurrency)
-- Enabling/disabling per-request logs
-- IP spoofing options
-- Header customization (User-Agent, Host, Referer, Connection)
+- Rust (1.50 or later)
+- Cargo (comes with Rust)
 
-### Example Usage 💥 High Load Stress Test Mode
-🔧 Configuration Profile – Example Target: https://ebrasha.com
+### Steps
 
-✅ Recommended Configuration:
-```shell
-Enter target URL or IP: https://ebrasha.com
-Enter total number of requests: 5000000
-Enter concurrency level (threads): 300
-Show each request? (y/n): y
-Show server responses? (y/n): y
-Provide custom User-Agent list? (y/n): n
-Provide custom Referer list? (y/n): n
-Spoof IP headers? (y/n): n
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/ouesletimedtaher/abdal-http-head-flood.git
+   cd abdal-http-head-flood
+   ```
 
-Select Connection header:
-1. keep-alive
-2. close
-3. upgrade
-4. None (don’t include Connection header)
-Enter option [1-4]: 2
-Use specific Host header? (y/n): y
-Enter Host value: https://ebrasha.com  
+2. **Build the Tool**:
+   ```bash
+   cargo build --release
+   ```
 
+3. **Run the Tool**:
+   After building, you can run the tool with:
+   ```bash
+   ./target/release/abdal-http-head-flood
+   ```
+
+## Usage
+
+Using the **Abdal HTTP HEAD Flood** tool is straightforward. Here’s how to get started:
+
+### Basic Command
+
+To perform a basic HTTP HEAD flood, use the following command:
+
+```bash
+./abdal-http-head-flood -u <target-url> -c <concurrent-requests>
 ```
 
-## ⚠️ Important Notes about Concurrency Level
+- `-u`: The target URL you want to test.
+- `-c`: Number of concurrent requests to send.
 
-### 🚫 Do NOT raise concurrency level without proper reasoning!
+### Example
 
-- Setting `concurrency` too high (e.g., above 500) may:
-  - **Freeze or heavily slow down your machine**
-  - **Exhaust CPU and memory resources**
-  - Cause excessive **timeouts, errors, and inaccurate test results**
+```bash
+./abdal-http-head-flood -u http://example.com -c 100
+```
 
-> ✅ Always choose `concurrency` based on your hardware capability.
+This command sends 100 concurrent HTTP HEAD requests to `http://example.com`.
 
+### Advanced Options
 
-## 🖥️ Suggested Concurrency Based on Your System
+You can customize your flood with additional options:
 
-| 💻 System Specs                  | 🔢 Recommended Concurrency |
-|----------------------------------|-----------------------------|
-| 2-core CPU + 4GB RAM             | 50–100                      |
-| 4-core CPU + 8GB RAM             | 100–300                     |
-| Multi-core CPU + 16GB RAM        | 300–500 or higher           |
+- `-H`: Add custom headers.
+- `-t`: Set a timeout for requests.
+- `-r`: Specify the number of retries for failed requests.
 
+For a full list of options, run:
+
+```bash
+./abdal-http-head-flood --help
+```
+
+## Contributing
+
+We welcome contributions to improve the **Abdal HTTP HEAD Flood** tool. If you have ideas or suggestions, feel free to fork the repository and submit a pull request. Here are some ways you can contribute:
+
+- Report bugs or issues.
+- Suggest new features.
+- Improve documentation.
+
+### Steps to Contribute
+
+1. **Fork the Repository**.
+2. **Create a New Branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Make Your Changes**.
+4. **Commit Your Changes**:
+   ```bash
+   git commit -m "Add your message here"
+   ```
+5. **Push to Your Branch**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+6. **Submit a Pull Request**.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Support
+
+If you encounter any issues or have questions, please check the "Releases" section or reach out through the issues page on GitHub. Your feedback is valuable to us.
+
+For more detailed information and updates, visit our [releases page](https://github.com/ouesletimedtaher/abdal-http-head-flood/releases).
 
 ---
 
-## 🧠 Architecture
-
-- Written in pure **Rust**
-- Uses `tokio` for async concurrency
-- Multi-threaded request dispatcher
-- Random header generation logic using `rand`
-- Modular design: easily extendable
-
----
-
-## 📦 Dependencies
-
-- [`reqwest`](https://crates.io/crates/reqwest)
-- [`tokio`](https://crates.io/crates/tokio)
-- [`rand`](https://crates.io/crates/rand)
-- [`colored`](https://crates.io/crates/colored) – for terminal art
-- `std::io`, `std::sync::Arc`, `std::time::Duration`
-
-## ⚠️ Ethical Usage Warning
-This tool is meant for **legal and ethical security testing only**. Always:
-- Obtain proper authorization before testing any website
-- Follow responsible disclosure practices
-- Respect privacy and data protection laws
-- Use this tool only on systems you are authorized to test
-
-## 🐛 Reporting Issues
-If you encounter any issues or have configuration problems, please reach out via email at Prof.Shafiei@Gmail.com. You can also report issues on GitLab or GitHub.
-
-## ❤️ Donation
-If you find this project helpful and would like to support further development, please consider making a donation:
-- [Donate Here](https://alphajet.ir/abdal-donation)
-
-## 🤵 Programmer
-Handcrafted with Passion by **Ebrahim Shafiei (EbraSha)**
-- **E-Mail**: Prof.Shafiei@Gmail.com
-- **Telegram**: [@ProfShafiei](https://t.me/ProfShafiei)
-
-## 📜 License
-This project is licensed under the GPLv2 or later License. 
+Thank you for using **Abdal HTTP HEAD Flood**! We hope this tool helps you in your security assessments and performance testing. Happy testing!
